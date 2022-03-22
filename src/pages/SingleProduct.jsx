@@ -2,27 +2,39 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { urlFor, client } from "../client";
+import { useLocation } from "react-router";
 
 const ProductContainer = styled.div`
+  max-width: 65rem;
+  margin: 0 auto;
+  padding: 2rem 0;
   display: flex;
-  height: 50vh;
-  margin: 2rem;
+  min-height: 50vh;
 `;
 const ImageContainer = styled.div`
-  flex: 1;
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
-const Image = styled.img``;
+const Image = styled.img`
+  object-fit: contain;
+`;
 const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  flex: 1;
+  flex: 2;
 `;
-const Name = styled.h4`
-  margin-bottom: 0.5rem;
+const Name = styled.h2`
+  margin-bottom: 1rem;
   text-transform: capitalize;
 `;
 const Desc = styled.p`
+  margin-bottom: 2rem;
+  font-size: 0.875;
   font-weight: 300;
 `;
 const BuyButton = styled.button`
@@ -40,29 +52,50 @@ const BuyButton = styled.button`
     background-color: #fff5c5;
   }
 `;
-const Price = styled.span``;
+const Price = styled.span`
+  margin-bottom: 1rem;
+  font-size: 2rem;
+`;
 const AmountContainer = styled.div``;
-const Add = styled.button``;
-const Remove = styled.button``;
-const Amount = styled.span``;
+const Add = styled.button`
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+`;
+const Remove = styled.button`
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+`;
+const Amount = styled.span`
+  margin: 0 0.5rem;
+`;
 
 const SingleProduct = () => {
+  const [product, setProduct] = useState([]);
+  // const [filteredProducts, setFilteredProducts] = useState([]);
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+
+  useEffect(() => {
+    const singleProductQuery = `*[_type == "product" && _id == "${id}"]`;
+    client.fetch(singleProductQuery).then((data) => {
+      setProduct(data[0]);
+    });
+  }, [id]);
+
+  const { name, description, price } = product;
   return (
     <>
       <Navbar />
       <ProductContainer>
         <ImageContainer>
-          <Image />
+          <Image src={urlFor(product.image)} />
         </ImageContainer>
         <DescriptionContainer>
-          <Name>product</Name>
-          <Desc>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus
-            explicabo voluptate nemo laborum error commodi, cumque unde soluta?
-            Enim doloremque aspernatur reprehenderit aliquid nemo aliquam
-            reiciendis, est sed. Quidem, qui.
-          </Desc>
-          <Price>10$</Price>
+          <Name>{name}</Name>
+          <Desc>{description}</Desc>
+          <Price>${price}</Price>
           <AmountContainer>
             <Remove>-</Remove>
             <Amount>0</Amount>

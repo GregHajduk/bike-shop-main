@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LinkButton from "./LinkButton";
+import ActionButton from "./ActionButton";
 
 const Container = styled.div`
   height: 100%;
@@ -35,7 +35,7 @@ const CategoryItem = ({ category }) => {
       <TitleContainer>
         <Title>{category.title}</Title>
         <Link to={`/products/${category.category}`}>
-          <LinkButton btnName="shop now" />
+          <ActionButton btnName="shop now" />
         </Link>
       </TitleContainer>
     </Container>

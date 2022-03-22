@@ -55,7 +55,7 @@ const Products = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(filters);
+  
   const handleSort = (e) => setSort(e.target.value);
 
   return (
