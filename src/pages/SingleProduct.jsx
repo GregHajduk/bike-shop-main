@@ -4,7 +4,7 @@ import Newsletter from "../components/Newsletter";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { urlFor, client } from "../client";
-import { useLocation } from "react-router";
+import { useParams } from "react-router";
 
 const ProductContainer = styled.div`
   max-width: 65rem;
@@ -34,8 +34,9 @@ const Name = styled.h2`
 `;
 const Desc = styled.p`
   margin-bottom: 2rem;
-  font-size: 0.875;
+  font-size: 0.875rem;
   font-weight: 300;
+  color: #4b4b4b;
 `;
 const BuyButton = styled.button`
   margin: 1rem auto 0 0;
@@ -70,37 +71,74 @@ const Remove = styled.button`
 const Amount = styled.span`
   margin: 0 0.5rem;
 `;
+const FiltersContainer = styled.div`
+  width: 50%;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const Color = styled.div`
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  background-color: ${(props) => props.color};
+`;
+const SelectSize = styled.select`
+  padding: 0.3rem 0.5rem;
+`;
+const Option = styled.option`
+  height: 100%;
+`;
 
 const SingleProduct = () => {
+  const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
   // const [filteredProducts, setFilteredProducts] = useState([]);
-  const location = useLocation();
-  const id = location.pathname.split("/")[2];
+
+  const handleDecreaseQuantity = () => {
+    if (quantity > 1) setQuantity(quantity - 1);
+  };
+
+  const handleIncreaseQuantity = () => {
+    if (quantity < 5) setQuantity(quantity + 1);
+  };
+  const { id } = useParams();
 
   useEffect(() => {
     const singleProductQuery = `*[_type == "product" && _id == "${id}"]`;
+
     client.fetch(singleProductQuery).then((data) => {
       setProduct(data[0]);
     });
   }, [id]);
-
-  const { name, description, price } = product;
+  const { name, description, price, color } = product;
   return (
     <>
       <Navbar />
       <ProductContainer>
         <ImageContainer>
-          <Image src={urlFor(product.image)} />
+          {product.image && <Image src={urlFor(product.image)} />}
         </ImageContainer>
         <DescriptionContainer>
           <Name>{name}</Name>
           <Desc>{description}</Desc>
           <Price>${price}</Price>
-          <AmountContainer>
-            <Remove>-</Remove>
-            <Amount>0</Amount>
-            <Add>+</Add>
-          </AmountContainer>
+          <FiltersContainer>
+            <AmountContainer>
+              <Remove onClick={handleDecreaseQuantity}>-</Remove>
+              <Amount>{quantity}</Amount>
+              <Add onClick={handleIncreaseQuantity}>+</Add>
+            </AmountContainer>
+            <Color color={color}></Color>
+            <SelectSize name="size">
+              <Option>all</Option>
+              <Option>s</Option>
+              <Option>m</Option>
+              <Option>l</Option>
+              <Option>xl</Option>
+            </SelectSize>
+          </FiltersContainer>
           <BuyButton>add to cart</BuyButton>
         </DescriptionContainer>
       </ProductContainer>

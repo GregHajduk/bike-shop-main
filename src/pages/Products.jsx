@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router";
+import { useParams } from "react-router";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -44,10 +44,9 @@ const Select = styled.select``;
 const Option = styled.option``;
 
 const Products = () => {
-  const location = useLocation();
-  const category = location.pathname.split("/")[2];
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("best sellers");
+  const { category } = useParams();
 
   const handleFilters = (e) => {
     setFilters({
@@ -55,7 +54,7 @@ const Products = () => {
       [e.target.name]: e.target.value,
     });
   };
-  
+
   const handleSort = (e) => setSort(e.target.value);
 
   return (
