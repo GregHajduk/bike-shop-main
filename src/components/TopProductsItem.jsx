@@ -55,6 +55,7 @@ const Price = styled.p`
 `;
 const TopProductsItem = ({ product, urlFor }) => {
   const { image, name, description, price, _id } = product;
+  console.log(product)
   return (
     <Container>
       <Image src={urlFor(image)} />
@@ -64,7 +65,7 @@ const TopProductsItem = ({ product, urlFor }) => {
       <InfoContainer>
         <Name>{name}</Name>
         <Desc>{description.substring(0, 100)} ...</Desc>
-        <Price>${price}</Price>
+        <Price>£{price}</Price>
       </InfoContainer>
       <Link  to={`/singleproduct/${_id}`}>
         <ActionButton btnName="read more" />

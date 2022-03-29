@@ -9,11 +9,11 @@ const Container = styled.div`
   max-width: 1080px;
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 `;
 const TopProducts = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
-  // const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const topProductsQuery = `*[_type == "product" && best == true]`;
@@ -23,12 +23,52 @@ const TopProducts = ({ category, filters, sort }) => {
     });
   }, [category]);
 
+  useEffect(() => {
+    if (category && filters.color === "all") {
+      setFilteredProducts(products);
+    } else {
+      category &&
+        setFilteredProducts(
+          products.filter((item) =>
+            Object.entries(filters).every(([key, value]) =>
+              item[key].includes(value)
+            )
+          )
+        );
+    }
+  }, [products, category, filters]);
 
+  useEffect(() => {
+    if (sort === "lowest") {
+      setFilteredProducts((prev) =>
+        [...prev].sort((a, b) => a.price - b.price)
+      );
+    } else if (sort === "highest") {
+      setFilteredProducts((prev) =>
+        [...prev].sort((a, b) => b.price - a.price)
+      );
+    }
+  }, [sort]);
+  console.log(products);
   return (
     <Container>
-      {products.map((product) => (
-        <TopProductsItem urlFor={urlFor} product={product} key={product._id} />
-      ))}
+      {category
+        ? filteredProducts.map((product) => (
+            <TopProductsItem
+              urlFor={urlFor}
+              product={product}
+              key={product._id}
+            />
+          ))
+        : products
+            .slice(0, 8)
+            .map((product) => (
+              <TopProductsItem
+                urlFor={urlFor}
+                product={product}
+                key={product._id}
+              />
+            ))}
     </Container>
   );
 };

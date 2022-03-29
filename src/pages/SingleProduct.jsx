@@ -1,6 +1,4 @@
-import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { urlFor, client } from "../client";
@@ -8,10 +6,11 @@ import { useParams } from "react-router";
 
 const ProductContainer = styled.div`
   max-width: 65rem;
+  min-height: 70vh;
   margin: 0 auto;
   padding: 2rem 0;
   display: flex;
-  min-height: 50vh;
+  flex-wrap: wrap;
 `;
 const ImageContainer = styled.div`
   flex: 3;
@@ -77,6 +76,7 @@ const FiltersContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 const Color = styled.div`
   height: 2rem;
@@ -105,6 +105,8 @@ const SingleProduct = () => {
   };
   const { id } = useParams();
 
+  const handleClick = () => {};
+
   useEffect(() => {
     const singleProductQuery = `*[_type == "product" && _id == "${id}"]`;
 
@@ -112,7 +114,9 @@ const SingleProduct = () => {
       setProduct(data[0]);
     });
   }, [id]);
+
   const { name, description, price, color } = product;
+
   return (
     <>
       <Navbar />
@@ -123,7 +127,7 @@ const SingleProduct = () => {
         <DescriptionContainer>
           <Name>{name}</Name>
           <Desc>{description}</Desc>
-          <Price>${price}</Price>
+          <Price>£{price}</Price>
           <FiltersContainer>
             <AmountContainer>
               <Remove onClick={handleDecreaseQuantity}>-</Remove>
@@ -131,19 +135,19 @@ const SingleProduct = () => {
               <Add onClick={handleIncreaseQuantity}>+</Add>
             </AmountContainer>
             <Color color={color}></Color>
-            <SelectSize name="size">
-              <Option>all</Option>
-              <Option>s</Option>
-              <Option>m</Option>
-              <Option>l</Option>
-              <Option>xl</Option>
+            <SelectSize onChange={(e) => e.target.value} name="size">
+              <Option selected disabled>
+                size
+              </Option>
+              <Option>S</Option>
+              <Option>M</Option>
+              <Option>L</Option>
+              <Option>XL</Option>
             </SelectSize>
           </FiltersContainer>
-          <BuyButton>add to cart</BuyButton>
+          <BuyButton onClick={handleClick}>add to cart</BuyButton>
         </DescriptionContainer>
       </ProductContainer>
-      <Newsletter />
-      <Footer />
     </>
   );
 };

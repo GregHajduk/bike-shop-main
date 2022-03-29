@@ -4,14 +4,20 @@ import { Search, ShoppingCart } from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
 import Promo from "./Promo";
 import Logo from "./Logo";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 4rem;
+  width: 100%;
   background-color: aliceblue;
   display: flex;
   align-items: center;
   color: darkslategrey;
   font-weight: bold;
+  z-index: 100;
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -36,10 +42,12 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-left: 1rem;
 `;
-const Center = styled.div`
+const Center = styled(Link)`
   flex: 1;
   display: flex;
   justify-content: center;
+  text-decoration: none;
+  color: black;
 `;
 
 const Right = styled.div`
@@ -65,7 +73,7 @@ const Navbar = () => {
               <Search />
             </SearchContainer>
           </Left>
-          <Center>
+          <Center to="/">
             <Logo />
           </Center>
           <Right>

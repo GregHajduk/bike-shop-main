@@ -51,7 +51,6 @@ const Slider = () => {
       setCurrent(current < bikeModels.length - 1 ? current + 1 : 0);
     }
   };
-  console.log(current);
   return (
     <div>
       <Container>

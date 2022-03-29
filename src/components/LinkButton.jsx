@@ -5,6 +5,7 @@ const Btn = styled.button`
   background-color: ${(props) => (props.type === "dark" ? "black" : "#f0d74b")};
   color: ${(props) => (props.type === "dark" ? "#f0d74b" : "black")};
   padding: 1rem 2rem;
+  border: none;
   text-transform: uppercase;
   text-align: center;
   font-size: 0.75rem;

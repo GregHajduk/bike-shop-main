@@ -54,7 +54,7 @@ const Products = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  console.log(filters);
   const handleSort = (e) => setSort(e.target.value);
 
   return (
@@ -76,17 +76,15 @@ const Products = () => {
             <Option>yellow</Option>
           </Select>
         </FilterType>
-        <FilterType>
-          <FilterTitle>sizes:</FilterTitle>
-          <Select name="size" onChange={handleFilters}>
+        {/* <FilterType>
+          <FilterTitle>type:</FilterTitle>
+          <Select name="type" onChange={handleFilters}>
             <Option>all</Option>
-            <Option>s</Option>
-            <Option>m</Option>
-            <Option>l</Option>
-            <Option>xl</Option>
-            <Option>xxl</Option>
+            <Option>road</Option>
+            <Option>MTB</Option>
+            <Option>city</Option>
           </Select>
-        </FilterType>
+        </FilterType> */}
         <FilterType>
           <FilterTitle>sort products:</FilterTitle>
           <Select onChange={handleSort}>
@@ -97,8 +95,6 @@ const Products = () => {
         </FilterType>
       </FiltersContainer>
       <TopProducts category={category} filters={filters} sort={sort} />
-      <Newsletter />
-      <Footer />
     </>
   );
 };

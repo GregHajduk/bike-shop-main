@@ -3,7 +3,12 @@ import styled from "styled-components";
 import CloseIcon from "@material-ui/icons/Close";
 
 const Container = styled.div`
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  z-index: 99;
   height: 1.7rem;
+  width: 100%;
   background-color: black;
   display: flex;
   align-items: center;
@@ -26,7 +31,7 @@ const Promo = () => {
               cursor: "pointer",
               marginRight: "1rem",
             }}
-            onClick={()=> setDisplay(false)}
+            onClick={() => setDisplay(false)}
           />
           <PromoText>Free shipping for over 100 GBP spent.</PromoText>
         </Container>

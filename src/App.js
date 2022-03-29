@@ -11,21 +11,29 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-
+import MainWrapper from "./components/MainWrapper";
+import { CartProvider } from "./contexts/CartContext";
 
 function App() {
   const user = true;
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products/:category" element={<Products />} />
-        <Route path="/singleproduct/:id" element={<SingleProduct />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route path="/shoppingcart" element={<ShoppingCart />} />
-      </Routes>
-    </Router>
+    <CartProvider>
+      <MainWrapper>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products/:category" element={<Products />} />
+            <Route path="/singleproduct/:id" element={<SingleProduct />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" /> : <Login />}
+            />
+            <Route path="/shoppingcart" element={<ShoppingCart />} />
+          </Routes>
+        </Router>
+      </MainWrapper>
+    </CartProvider>
   );
 }
 

@@ -146,7 +146,6 @@ const ShoppingCart = () => {
         </SummaryContainer>
         <Hr />
       </Container>
-      <Footer />
     </>
   );
 };
