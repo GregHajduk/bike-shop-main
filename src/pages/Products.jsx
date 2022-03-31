@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
 import TopProducts from "../components/TopProducts";
 import banner from "../images/winter season banner.jpg";
 
@@ -54,7 +52,6 @@ const Products = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(filters);
   const handleSort = (e) => setSort(e.target.value);
 
   return (

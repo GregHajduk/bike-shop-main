@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Search, ShoppingCart } from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
 import Promo from "./Promo";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
+import CartContext from "../contexts/CartContext";
 
 const Container = styled.div`
   position: fixed;
@@ -60,7 +61,9 @@ const LoginItem = styled.span`
   margin-right: 2rem;
   cursor: pointer;
 `;
+const Cart = styled(Link)``;
 const Navbar = () => {
+  const { items } = useContext(CartContext);
   return (
     <>
       <Promo />
@@ -79,9 +82,15 @@ const Navbar = () => {
           <Right>
             <LoginItem>sign in</LoginItem>
             <LoginItem>log in</LoginItem>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCart />
-            </Badge>
+            <Cart to="/shoppingcart">
+              <Badge
+                badgeContent={items.length}
+                color="primary"
+                style={{ cursor: "pointer" }}
+              >
+                <ShoppingCart />
+              </Badge>
+            </Cart>
           </Right>
         </Wrapper>
       </Container>

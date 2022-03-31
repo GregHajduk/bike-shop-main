@@ -49,7 +49,6 @@ const TopProducts = ({ category, filters, sort }) => {
       );
     }
   }, [sort]);
-  console.log(products);
   return (
     <Container>
       {category

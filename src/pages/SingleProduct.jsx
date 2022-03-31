@@ -1,8 +1,9 @@
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { urlFor, client } from "../client";
 import { useParams } from "react-router";
+import CartContext from "../contexts/CartContext";
 
 const ProductContainer = styled.div`
   max-width: 65rem;
@@ -94,6 +95,8 @@ const Option = styled.option`
 const SingleProduct = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
+  const { items, addToCart } = useContext(CartContext);
+  const [size, setSize] = useState("");
   // const [filteredProducts, setFilteredProducts] = useState([]);
 
   const handleDecreaseQuantity = () => {
@@ -105,7 +108,10 @@ const SingleProduct = () => {
   };
   const { id } = useParams();
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    addToCart(name, price, quantity, color, image, size);
+  };
+  console.log(items);
 
   useEffect(() => {
     const singleProductQuery = `*[_type == "product" && _id == "${id}"]`;
@@ -115,14 +121,14 @@ const SingleProduct = () => {
     });
   }, [id]);
 
-  const { name, description, price, color } = product;
+  const { name, description, price, color, image } = product;
 
   return (
     <>
       <Navbar />
       <ProductContainer>
         <ImageContainer>
-          {product.image && <Image src={urlFor(product.image)} />}
+          {image && <Image src={urlFor(image)} />}
         </ImageContainer>
         <DescriptionContainer>
           <Name>{name}</Name>
@@ -134,9 +140,9 @@ const SingleProduct = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={handleIncreaseQuantity}>+</Add>
             </AmountContainer>
-            <Color color={color}></Color>
-            <SelectSize onChange={(e) => e.target.value} name="size">
-              <Option selected disabled>
+            <Color color={color} />
+            <SelectSize onChange={(e) => setSize(e.target.value)} name="size">
+              <Option disabled defaultValue>
                 size
               </Option>
               <Option>S</Option>

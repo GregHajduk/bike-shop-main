@@ -55,7 +55,6 @@ const Price = styled.p`
 `;
 const TopProductsItem = ({ product, urlFor }) => {
   const { image, name, description, price, _id } = product;
-  console.log(product)
   return (
     <Container>
       <Image src={urlFor(image)} />
