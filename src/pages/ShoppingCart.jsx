@@ -76,13 +76,24 @@ const Hr = styled.div`
 
 const ShoppingCart = () => {
   const { items } = useContext(CartContext);
+
   const itemPrice = items.map((item) => {
     return item.price * item.quantity;
   });
-  console.log(itemPrice);
-  // })((acc, currentValue)=>{
-  //   return acc + currentValue
-  // },o)
+ 
+  const subTotal = itemPrice.reduce((acc, currentValue) => {
+    return acc + currentValue;
+  }, 0);
+
+  let delivery;
+
+  if (subTotal >= 100 || subTotal === 0) {
+    delivery = 0;
+  } else {
+    delivery = 9.5;
+  }
+
+  const total = subTotal + delivery;
 
   return (
     <>
@@ -115,15 +126,15 @@ const ShoppingCart = () => {
           <TotalPriceContainer>
             <SubtotalContainer>
               <SubtotalTitle>subtotal:</SubtotalTitle>
-              <Subtotal>£200</Subtotal>
+              <Subtotal>£{subTotal}</Subtotal>
             </SubtotalContainer>
             <DeliveryContainer>
               <DeliveryTitle>delivery:</DeliveryTitle>
-              <Delivery>£9.50</Delivery>
+              <Delivery>£{delivery}</Delivery>
             </DeliveryContainer>
             <TotalContainer>
               <TotalTitle>total:</TotalTitle>
-              <Total>£209.50</Total>
+              <Total>£{total}</Total>
             </TotalContainer>
             <Buttons>
               <LinkButton btnName="continue shopping" />

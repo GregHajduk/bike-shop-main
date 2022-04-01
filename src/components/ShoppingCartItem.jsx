@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { urlFor } from "../client";
 
@@ -44,7 +44,21 @@ const Info = styled.div`
   justify-content: space-between;
 `;
 const Name = styled.span``;
-const Quantity = styled.span``;
+const QuantityContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Increase = styled.button`
+  padding: 0.25rem;
+  cursor: pointer;
+`;
+const Decrease = styled.button`
+  padding: 0.25rem;
+  cursor: pointer;
+`;
+const Quantity = styled.span`
+  margin: 0 0.75rem;
+`;
 const Size = styled.span`
   padding: 0.5rem;
 `;
@@ -62,7 +76,15 @@ const Price = styled.span`
 `;
 
 const ShoppingCartItem = ({ name, price, color, quantity, image, size }) => {
-  console.log(quantity);
+  const [finalQuantity, setFinalQuantity] = useState(quantity);
+
+  const handleFinalQuantity = (type) => {
+    if (type === "decrease" && finalQuantity > 1) {
+      setFinalQuantity(finalQuantity - 1);
+    } else {
+      setFinalQuantity(finalQuantity + 1);
+    }
+  };
   return (
     <ProductContainer>
       <ProductWrapper>
@@ -73,7 +95,11 @@ const ShoppingCartItem = ({ name, price, color, quantity, image, size }) => {
               <Name>{name}</Name>
             </InfoItem>
             <InfoItem>
-              <Quantity>x {quantity}</Quantity>
+              <QuantityContainer>
+                <Decrease onClick={() => handleFinalQuantity("decrease")}>-</Decrease>
+                <Quantity>{finalQuantity}</Quantity>
+                <Increase onClick={() => handleFinalQuantity("increase")}>+</Increase>
+              </QuantityContainer>
             </InfoItem>
             <InfoItem>
               <Color color={color} />
