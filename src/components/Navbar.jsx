@@ -64,6 +64,7 @@ const LoginItem = styled.span`
 const Cart = styled(Link)``;
 const Navbar = () => {
   const { items } = useContext(CartContext);
+  console.log(...items)
   return (
     <>
       <Promo />

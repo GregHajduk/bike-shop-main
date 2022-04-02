@@ -76,12 +76,13 @@ const Hr = styled.div`
 
 const ShoppingCart = () => {
   const { items } = useContext(CartContext);
+  let opts = { format: '%v %c', code: 'USD' }
 
   const itemPrice = items.map((item) => {
     return item.price * item.quantity;
   });
- 
-  const subTotal = itemPrice.reduce((acc, currentValue) => {
+  console.log(itemPrice);
+  let subTotal = itemPrice.reduce((acc, currentValue) => {
     return acc + currentValue;
   }, 0);
 
@@ -94,7 +95,7 @@ const ShoppingCart = () => {
   }
 
   const total = subTotal + delivery;
-
+  console.log(items);
   return (
     <>
       <Navbar />
@@ -106,15 +107,16 @@ const ShoppingCart = () => {
         <Hr />
         <OrderContainer>
           {items.map((item) => {
+            const {name, price, color, size, image, quantity} = item
             return (
               <>
                 <ShoppingCartItem
-                  name={item.name}
-                  price={item.price}
-                  color={item.color}
-                  size={item.size}
-                  image={item.image}
-                  quantity={item.quantity}
+                  name={name}
+                  price={price}
+                  color={color}
+                  size={size}
+                  image={image}
+                  quantity={quantity}
                 />
                 <Hr />
               </>

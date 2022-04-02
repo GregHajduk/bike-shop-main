@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ShoppingCart } from "@material-ui/icons";
 import ActionButton from "./ActionButton";
 import { Link } from "react-router-dom";
+import formatCurrency from "format-currency";
 
 const Container = styled.div`
   height: 100%;
@@ -54,6 +55,7 @@ const Price = styled.p`
   color: #585858;
 `;
 const TopProductsItem = ({ product, urlFor }) => {
+  let opts = { format: "%v %c", code: "GBP" };
   const { image, name, description, price, _id } = product;
   return (
     <Container>
@@ -64,13 +66,13 @@ const TopProductsItem = ({ product, urlFor }) => {
       <InfoContainer>
         <Name>{name}</Name>
         <Desc>{description.substring(0, 100)} ...</Desc>
-        <Price>£{price}</Price>
+        <Price>{formatCurrency(`${price}`, opts)}</Price>
       </InfoContainer>
-      <Link  to={`/singleproduct/${_id}`}>
+      <Link to={`/singleproduct/${_id}`}>
         <ActionButton btnName="read more" />
       </Link>
     </Container>
-  )
+  );
 };
 
 export default TopProductsItem;

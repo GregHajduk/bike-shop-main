@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { urlFor } from "../client";
+import formatCurrency from "format-currency";
 
 const ProductContainer = styled.div`
   height: 10rem;
@@ -76,15 +77,17 @@ const Price = styled.span`
 `;
 
 const ShoppingCartItem = ({ name, price, color, quantity, image, size }) => {
-  const [finalQuantity, setFinalQuantity] = useState(quantity);
+  const [checkoutQuantity, setCheckoutQuantity] = useState(quantity);
 
-  const handleFinalQuantity = (type) => {
-    if (type === "decrease" && finalQuantity > 1) {
-      setFinalQuantity(finalQuantity - 1);
-    } else {
-      setFinalQuantity(finalQuantity + 1);
-    }
+  const handleDecreaseQuantity = () => {
+    if (checkoutQuantity > 1) setCheckoutQuantity(checkoutQuantity - 1);
   };
+
+  const handleIncreaseQuantity = () => {
+    if (checkoutQuantity < 5) setCheckoutQuantity(checkoutQuantity + 1);
+  };
+  let opts = { format: "%v %c", code: "GBP" };
+
   return (
     <ProductContainer>
       <ProductWrapper>
@@ -96,9 +99,9 @@ const ShoppingCartItem = ({ name, price, color, quantity, image, size }) => {
             </InfoItem>
             <InfoItem>
               <QuantityContainer>
-                <Decrease onClick={() => handleFinalQuantity("decrease")}>-</Decrease>
-                <Quantity>{finalQuantity}</Quantity>
-                <Increase onClick={() => handleFinalQuantity("increase")}>+</Increase>
+                <Decrease onClick={handleDecreaseQuantity}>-</Decrease>
+                <Quantity>{checkoutQuantity}</Quantity>
+                <Increase onClick={handleIncreaseQuantity}>+</Increase>
               </QuantityContainer>
             </InfoItem>
             <InfoItem>
@@ -108,7 +111,7 @@ const ShoppingCartItem = ({ name, price, color, quantity, image, size }) => {
               <Size>{size}</Size>
             </InfoItem>
             <InfoItem>
-              <Price>£{price}</Price>
+              <Price>{formatCurrency(`${price}`, opts)}</Price>
             </InfoItem>
           </Info>
         </ProductDetails>

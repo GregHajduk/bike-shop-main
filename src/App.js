@@ -17,23 +17,25 @@ import { CartProvider } from "./contexts/CartContext";
 function App() {
   const user = true;
   return (
-    <CartProvider>
-      <MainWrapper>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products/:category" element={<Products />} />
-            <Route path="/singleproduct/:id" element={<SingleProduct />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/login"
-              element={user ? <Navigate to="/" /> : <Login />}
-            />
-            <Route path="/shoppingcart" element={<ShoppingCart />} />
-          </Routes>
-        </Router>
-      </MainWrapper>
-    </CartProvider>
+
+      <CartProvider>
+        <MainWrapper>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products/:category" element={<Products />} />
+              <Route path="/singleproduct/:id" element={<SingleProduct />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/login"
+                element={user ? <Navigate to="/" /> : <Login />}
+              />
+              <Route path="/shoppingcart" element={<ShoppingCart />} />
+            </Routes>
+          </Router>
+        </MainWrapper>
+      </CartProvider>
+
   );
 }
 

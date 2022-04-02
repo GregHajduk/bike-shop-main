@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { urlFor, client } from "../client";
 import { useParams } from "react-router";
 import CartContext from "../contexts/CartContext";
+import formatCurrency from "format-currency";
 
 const ProductContainer = styled.div`
   max-width: 65rem;
@@ -95,9 +96,10 @@ const Option = styled.option`
 const SingleProduct = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
-  const { items, addToCart } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
   const [size, setSize] = useState("");
   // const [filteredProducts, setFilteredProducts] = useState([]);
+  let opts = { format: "%v %c", code: "GBP" };
 
   const handleDecreaseQuantity = () => {
     if (quantity > 1) setQuantity(quantity - 1);
@@ -111,7 +113,6 @@ const SingleProduct = () => {
   const handleClick = () => {
     addToCart(name, price, quantity, color, image, size);
   };
-  console.log(items);
 
   useEffect(() => {
     const singleProductQuery = `*[_type == "product" && _id == "${id}"]`;
@@ -133,7 +134,7 @@ const SingleProduct = () => {
         <DescriptionContainer>
           <Name>{name}</Name>
           <Desc>{description}</Desc>
-          <Price>£{price}</Price>
+          <Price>{formatCurrency(`${price}`, opts)}</Price>
           <FiltersContainer>
             <AmountContainer>
               <Remove onClick={handleDecreaseQuantity}>-</Remove>
